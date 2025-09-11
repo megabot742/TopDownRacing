@@ -68,9 +68,9 @@ crashlytics-build.properties
 
 ### Keep folder _ProjectMain ###
 # Ignore the entire asset first
-/Assets/*
+#/Assets/*
 
 # Turn on _projectmain and subfolders/files inside
-!Assets/_ProjectMain/
-!Assets/_ProjectMain.meta
-!Assets/_ProjectMain/**/*
+#!Assets/_ProjectMain/
+#!Assets/_ProjectMain.meta
+#!Assets/_ProjectMain/**/*
