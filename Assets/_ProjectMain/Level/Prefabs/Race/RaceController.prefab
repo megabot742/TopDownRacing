@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4548364553626289029
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9169840543425609539}
+  - component: {fileID: 3082801045821207104}
+  m_Layer: 0
+  m_Name: RaceController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9169840543425609539
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4548364553626289029}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3082801045821207104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4548364553626289029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d15c94597bb63004c9713a1fa8404fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allCheckPoints: []
+  totalLaps: 1
+  playerCar: {fileID: 0}
+  allAICars: []
+  playerPosition: 1
+  timeBetweenPosCheck: 0.2
+  isStarting: 0
+  timeBetweenStartCount: 1
+  countDownCurrent: 3
+  playerStartPosition: 0
+  aiNumberToSpawn: 3
+  startPoints: []
+  spawnCarParent: {fileID: 0}
+  carsToSpawn:
+  - {fileID: 6590774728802440843, guid: 03e892778abbbad4ea946455b47399d4, type: 3}
+  - {fileID: 839701931462197725, guid: e9e0c1c6730a7984ba4a26f5b83abf32, type: 3}
+  - {fileID: 839701931462197725, guid: 7cd9ed99c4936e64aae6fb83d7e4a638, type: 3}
+  - {fileID: 3055534383934256049, guid: b6d06251e7caf3243a453cbf20ea60b5, type: 3}
+  - {fileID: 6590774728802440843, guid: 0cfac879c95ea564294487c1ffa39ae9, type: 3}
+  - {fileID: 1253064839957937920, guid: 2877398611dfc9646b0785333d838174, type: 3}
+  raceCompleted: 0

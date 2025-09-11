@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2101240026287593536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1858855839548529890}
+  - component: {fileID: 4709340885949925030}
+  m_Layer: 0
+  m_Name: RaceInfoManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1858855839548529890
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101240026287593536}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4709340885949925030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101240026287593536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eaf0225fd9837748a57b42c0be1f841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  raceToLoad: Race1
+  playerCar: {fileID: 839701931462197725, guid: 7cd9ed99c4936e64aae6fb83d7e4a638, type: 3}
+  numberOfLap: 2
+  numberOfAI: 3
+  enteredRace: 0
+  carSprite: {fileID: 5596726555607992139, guid: f30c0dfc4c402d54aabac34721c974c9, type: 3}
+  raceSprite: {fileID: 7780530919094711566, guid: 4baf7861ae919244089eadb3f6ddd3cc, type: 3}
+  raceToUnlock: Race2

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e055276bb68284da2720717b234e33, type: 3}
+  m_Name: Race Database
+  m_EditorClassIdentifier: 
+  track:
+  - idTrack: Race1
+    idTrackUnlock: Race2
+    trackName: Asphalt
+    trackSprite: {fileID: 7780530919094711566, guid: 4baf7861ae919244089eadb3f6ddd3cc, type: 3}
+  - idTrack: Race2
+    idTrackUnlock: Race3
+    trackName: 'Distace '
+    trackSprite: {fileID: -4153259564855467512, guid: fa35e68d3040a084fb61823267e8f099, type: 3}
+  - idTrack: Race3
+    idTrackUnlock: 
+    trackName: Sandy
+    trackSprite: {fileID: -2262353960821751634, guid: c4a0e39ad2206aa4aaddef2c362c5413, type: 3}
