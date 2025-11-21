@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "TopDown Racing.sln"
+    "dotnet.defaultSolution": "TopDownRacing.sln"
 }

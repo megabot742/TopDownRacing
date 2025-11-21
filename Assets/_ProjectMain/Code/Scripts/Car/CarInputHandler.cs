@@ -44,23 +44,49 @@ public class CarInputHandler : MonoBehaviour
     void Awake()
     {
         carController = GetComponent<CarController>();
-        allWayPoints = FindObjectsByType<WaypointNode>(FindObjectsSortMode.InstanceID)
-        .OrderBy(w => 
-        {
-            if (w.name == "WaypointNode") return -1; // Place "WaypointNode" at the start (index 0)
-            return int.TryParse(w.name.Replace("WaypointNode", "").Replace("(", "").Replace(")", ""), out int index) ? index : int.MaxValue;
-        }).ToArray();
         rayCastBoxCollider2D = GetComponentInChildren<BoxCollider2D>();
         carRb2D = GetComponent<Rigidbody2D>();
 
         maxSpeed = carController.maxSpeed;
         maxSpeedWithLevel = maxSpeed;
+
+        //Replace by sort with LINQ
+        allWayPoints = FindObjectsByType<WaypointNode>(FindObjectsSortMode.None);
+
+        //Manual sorting for simple and run 1 time 
+        if (allWayPoints.Length > 1)
+        {
+            System.Array.Sort(allWayPoints, (a, b) =>
+            {
+                if (a.name == "WaypointNode") return -1;
+                if (b.name == "WaypointNode") return 1;
+
+                string aName = a.name.Replace("WaypointNode", "").Replace("(", "").Replace(")", "");
+                string bName = b.name.Replace("WaypointNode", "").Replace("(", "").Replace(")", "");
+
+                if (int.TryParse(aName, out int indexA) && int.TryParse(bName, out int indexB))
+                    return indexA.CompareTo(indexB);
+
+                return string.Compare(a.name, b.name, System.StringComparison.Ordinal);
+            });
+        }
     }
     private void Start()
     {
         SetMaxSpeedBaseOnSkillLevel(maxSpeed);
         resetCounter = resetCoolDown;
-        currentWaypoint = allWayPoints[0]; //Get first WaypointsNode
+
+        //Start with waypoint
+        if (allWayPoints != null && allWayPoints.Length > 0)
+        {
+            currentWaypoint = allWayPoints[0];
+            previousWaypoint = currentWaypoint;
+        }
+        else
+        {
+            Debug.LogError("[CarInputHandler] Không tìm thấy WaypointNode nào trong scene!", this);
+            enabled = false;
+        }
     }
     void FixedUpdate()
     {
@@ -147,49 +173,80 @@ public class CarInputHandler : MonoBehaviour
     }
     void FollowWayPoint()
     {
-        //Pick the cloesest waypoint if we don't have a waypoint set.
+        //Find the nearest waypoint
         if (currentWaypoint == null)
         {
             currentWaypoint = FindClosestWayPoint();
+            if (currentWaypoint == null)
+            {
+                targetPosition = transform.position;
+                return;
+            }
             previousWaypoint = currentWaypoint;
         }
-        //Set the target on the waypoints position
-        if (currentWaypoint != null)
+
+        targetPosition = currentWaypoint.transform.position;
+        float distanceToWayPoint = Vector3.Distance(transform.position, targetPosition);
+
+        // Shortcut khi quá xa: kéo về đường thẳng nối 2 waypoint
+        if (distanceToWayPoint > 20f && previousWaypoint != null)
         {
-            //Set the target position of for the AI. 
-            targetPosition = currentWaypoint.transform.position;
+            Vector3 nearest = FindNearestPointOnLine(
+                previousWaypoint.transform.position,
+                currentWaypoint.transform.position,
+                transform.position
+            );
 
-            //Store how close we are to the target
-            float distanceToWayPoint = (targetPosition - transform.position).magnitude;
+            float segments = distanceToWayPoint / 20f;
+            targetPosition = (targetPosition + nearest * segments) / (segments + 1);
+        }
 
-            //Navigate towards nearest point on line
-            if (distanceToWayPoint > 20)
+        // Move to current waypoint → move to next waypoint
+        if (distanceToWayPoint <= currentWaypoint.minDistanceToReachWaypoint)
+        {
+            //Max speed to waypint
+            if (currentWaypoint.maxSpeed > 0f)
+                maxSpeed = currentWaypoint.maxSpeed;
+            else
+                SetMaxSpeedBaseOnSkillLevel(carController.maxSpeed);
+
+            previousWaypoint = currentWaypoint;
+
+            //Get next waypoint (use random if more than 2 waypoint)
+            var nextNodes = currentWaypoint.nextWaypointNode;
+            if (nextNodes != null && nextNodes.Length > 0)
             {
-                Vector3 nearestPointOnTheWayPointLine = FindNearestPointOnLine(previousWaypoint.transform.position, currentWaypoint.transform.position, transform.position);
-
-                float segments = distanceToWayPoint / 20.0f;
-
-                targetPosition = (targetPosition + nearestPointOnTheWayPointLine * segments) / (segments + 1);
-
-                Debug.DrawLine(transform.position, targetPosition, Color.cyan);
+                currentWaypoint = nextNodes[Random.Range(0, nextNodes.Length)];
             }
-            //Check if we are close enough to consider that we have reached the waypoint
-            if (distanceToWayPoint <= currentWaypoint.minDistanceToReachWaypoint)
+            else
             {
-                if (currentWaypoint.maxSpeed > 0)
-                    maxSpeed = currentWaypoint.maxSpeed;
-                else
-                    SetMaxSpeedBaseOnSkillLevel(maxSpeed);
-                //Store the current waypoint as previous before we assign a new current one. 
-                previousWaypoint = currentWaypoint;
-                //If we are close enough then follow to the next waypoint, if there are multiple waypoints then pick one at random.
-                currentWaypoint = currentWaypoint.nextWaypointNode[Random.Range(0, currentWaypoint.nextWaypointNode.Length)];
+                //There is no link → find the nearest one
+                currentWaypoint = FindClosestWayPoint() ?? currentWaypoint;
             }
         }
     }
+
     WaypointNode FindClosestWayPoint()
     {
-        return allWayPoints.OrderBy(t => Vector3.Distance(transform.position, t.transform.position)).FirstOrDefault();
+        if (allWayPoints == null || allWayPoints.Length == 0) return null;
+
+        WaypointNode closest = null;
+        float closestDist = float.MaxValue;
+        Vector3 myPos = transform.position;
+
+        for (int i = 0; i < allWayPoints.Length; i++)
+        {
+            if (allWayPoints[i] == null) continue; //Check if no waypoint
+
+            float dist = Vector3.SqrMagnitude(allWayPoints[i].transform.position - myPos);
+            if (dist < closestDist)
+            {
+                closestDist = dist;
+                closest = allWayPoints[i];
+            }
+        }
+
+        return closest;
     }
 
     float TurnTowardTarget()

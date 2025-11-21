@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      road_sand27_0: 5494388959744260235
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
